@@ -8,6 +8,7 @@
 #include <atomic>
 #include <fcntl.h>
 #include <semaphore.h>
+#include <thread>
 
 ProcessManagement::ProcessManagement() {
     sem_t* itemsSemaphore = sem_open("/items_semaphore", O_CREAT, 0666, 0);
@@ -33,18 +34,26 @@ bool ProcessManagement::submitToQueue(std::unique_ptr<Task> task) {
     sharedMem->size.fetch_add(1);
     lock.unlock();
     sem_post(itemsSemaphore);
+
+        /* 
     // spinning up the child process
-    int pid = fork();
-    if(pid < 0) {
-        return false ;
-    } else if(pid > 0) {
-        std::cout << "Entering the parent process" << std::endl;
-    } else {
-        std::cout << "Entering the child process" << std::endl;
-        executeTasks();
-        std::cout << "Exiting the child process" << std::endl;
-        exit(0);
-    }
+    // int pid = fork();
+    // if(pid < 0) {
+    //     return false ;
+    // } else if(pid > 0) {
+    //     std::cout << "Entering the parent process" << std::endl;
+    // } else {
+    //     std::cout << "Entering the child process" << std::endl;
+    //     executeTasks();
+    //     std::cout << "Exiting the child process" << std::endl;
+    //     exit(0);
+    // }
+    // return true;
+    */
+
+    std::thread thread_1(&ProcessManagement::executeTasks, this);
+    thread_1.detach();
+
     return true;
 }
 
