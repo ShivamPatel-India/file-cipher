@@ -1,5 +1,8 @@
-.DS_Store
+.DS_Store                                                                                                                                                   
+*.o                                                                                                                                                         
+*.dSYM/                                                                                                                                                     
+cryption                                                                                                                                                    
+encrypt_decrypt                                                                                                                                             
+/test/*                                                                                                                                                     
 
-*.o
-cryption
-encrypt_decrypt
+.env
